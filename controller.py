@@ -106,7 +106,7 @@ if __name__ == "__main__":
 
     ProgramSim(args.num_programs, 
                args.max_time, 
-               args.num_cores, 
+               args.cpu, 
                args.cpu_stress, 
                args.min_gpu_timeout, 
                args.max_gpu_timeout).simulate()
