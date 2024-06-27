@@ -14,6 +14,12 @@ class Resource:
         self.cpu_stress = random.randrange(max_stress)
         self.gpu_stress_timeout = random.random() * (max_gpu_timeout - min_gpu_timeout) + min_gpu_timeout
 
+    #def __repr__(self):
+    #    "CPU Cores: {}; CPU Stress: {}; GPU Timeout: {}".format(self.cpu_cores, self.cpu_stress, self.gpu_stress_timeout)
+
+    def __str__(self):
+        "CPU Cores: {}; CPU Stress: {}; GPU Timeout: {}".format(self.cpu_cores, self.cpu_stress, self.gpu_stress_timeout)
+
 """
 Represents a program simulation that stresses resources at random amounts
 over a period of time
@@ -23,8 +29,10 @@ class ProgramSim:
         random.seed()
         self.number = random.randrange(1, max_num_programs)
         max_time = max_seconds / self.number
-        self.times = [random.random() * max_time for _ in range(self.number)]
+        self.times = [random.random() * max_time + 1 for _ in range(self.number)]
         self.resources = [Resource(num_cores, max_stress, max_gpu_timeout, min_gpu_timeout) for _ in range(self.number)]
+
+        print("Running {} programs with the following resources: \n\t Times: {} \n\t Resources: {}".format(self.number, self.times, self.resources))
 
     def simulate(self):
         """
@@ -32,6 +40,8 @@ class ProgramSim:
         for a given amount of time
         """
         for i in range(self.number):
+            print("Simulating program {}".format(i))
+
             r = self.resources[i]
             t = self.times[i]
             
@@ -103,6 +113,15 @@ if __name__ == "__main__":
     if args.min_gpu_timeout > args.max_gpu_timeout:
         print("MIN GPU timeout must be smaller than MAX GPU timeout")
         sys.exit(os.EX_DATAERR)
+
+    print("Running with args: \n\t-n: {} \n\t-t: {} \n\t--cpu: {} \n\t--cpu-stress: {} \n\t--min-gpu-timeout: {} \n\t--max-gpu-timeout: {}"
+          .format(
+            args.num_programs, 
+            args.max_time, 
+            args.cpu, 
+            args.cpu_stress, 
+            args.min_gpu_timeout, 
+            args.max_gpu_timeout))
 
     ProgramSim(args.num_programs, 
                args.max_time, 
