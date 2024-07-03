@@ -29,7 +29,7 @@ testable data
 class DeterministicResource:
     def __init__(self, num_cores, max_stress, min_gpu_timeout, max_gpu_timeout, num_programs, i):
         self.cpu_cores = num_cores
-        self.cpu_stress = max_stress / num_programs * i
+        self.cpu_stress = int(max_stress / num_programs * i)
         self.gpu_stress_timeout = (max_gpu_timeout - min_gpu_timeout) / num_programs * i + min_gpu_timeout
 
     def __str__(self):
@@ -55,7 +55,7 @@ class ProgramSim:
         else:
             self.number = max_num_programs
             time = max_seconds / self.number
-            self.times = [time] * self.number
+            self.times = [time + 1] * self.number
             self.resources = [DeterministicResource(num_cores, 
                                                     max_stress, 
                                                     max_gpu_timeout, 
