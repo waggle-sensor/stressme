@@ -6,6 +6,7 @@ metadata:
     app.kubernetes.io/name: gpu-stress-core
   name: gpu-stress-core
 spec:
+  runtimeClassName: nvidia
   containers:
   - args:
     - -r 
